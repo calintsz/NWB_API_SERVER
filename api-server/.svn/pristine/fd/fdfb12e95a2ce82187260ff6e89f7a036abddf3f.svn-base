@@ -1,0 +1,103 @@
+package kr.co.dstrust.dsl.service.dao;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
+@Profile("mssql")
+public class MssqlDataSource {
+  //
+  @Bean
+  @Primary
+  //@ConfigurationProperties("gw")
+  @Resource(name="dataSource_gw")
+  public BasicDataSource dataSource() {
+      BasicDataSource dataSource = new BasicDataSource();
+      dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      dataSource.setUrl("jdbc:sqlserver://10.206.186.22:1433;databaseName=CrewworksV80_DAESUNG");
+      dataSource.setUsername("dazone");
+      dataSource.setPassword("crewworksv8daesung");
+      return dataSource;
+  }
+  
+  @Resource(name="dataSource_erp")
+  public BasicDataSource dataSource_erp() {
+      BasicDataSource dataSource = new BasicDataSource();
+      dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      dataSource.setUrl("jdbc:sqlserver://10.206.186.22:1433;databaseName=ERP");
+      dataSource.setUsername("dserp");
+      dataSource.setPassword("qwer@123");
+      return dataSource;
+  }
+  @Resource(name="dataSource_qms")
+  public BasicDataSource dataSource_qms() {
+      BasicDataSource dataSource = new BasicDataSource();
+      dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      dataSource.setUrl("jdbc:sqlserver://10.206.186.22:1433;databaseName=QMS");
+      dataSource.setUsername("dserp");
+      dataSource.setPassword("qwer@123");
+      return dataSource;
+  }
+  @Resource(name="dataSource_mms")
+  public BasicDataSource dataSource_mms() {
+      BasicDataSource dataSource = new BasicDataSource();
+      dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      dataSource.setUrl("jdbc:sqlserver://10.206.186.22:1433;databaseName=MMS");
+      dataSource.setUsername("dserp");
+      dataSource.setPassword("qwer@123");
+      return dataSource;
+  }
+  @Resource(name="dataSource_dsl")
+  public BasicDataSource dataSource_dsl() {
+      BasicDataSource dataSource = new BasicDataSource();
+      dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      dataSource.setUrl("jdbc:sqlserver://10.206.186.22:1433;databaseName=DSL");
+      dataSource.setUsername("dserp");
+      dataSource.setPassword("qwer@123");
+      return dataSource;
+  }
+  @Resource(name="dataSource_eis")
+  public BasicDataSource dataSource_eis() {
+      BasicDataSource dataSource = new BasicDataSource();
+      dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      dataSource.setUrl("jdbc:sqlserver://10.206.186.22:1433;databaseName=EIS");
+      dataSource.setUsername("dserp");
+      dataSource.setPassword("qwer@123");
+      return dataSource;
+  }
+}
+
+
+//
+//import javax.sql.DataSource;
+//
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.context.annotation.Profile;
+//import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+//import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+//import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+//
+//@Profile("hsql")
+//@Configuration
+//public class HsqlDataSource {
+//
+//    // jdbc:hsqldb:mem:testdb
+//    @Bean
+//    public DataSource dataSource() {
+//
+//        // no need shutdown, EmbeddedDatabaseFactoryBean will take care of this
+//        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+//        EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.HSQL).addScript("db/sql/create-db.sql")
+//                .addScript("db/sql/insert-data.sql").setName("NETTY_EXAMPLE_DB").build();
+//        return db;
+//    }
+//}

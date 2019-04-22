@@ -1,0 +1,119 @@
+package kr.co.npc.nwb;
+
+import io.netty.bootstrap.ServerBootstrap;
+
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.SelfSignedCertificate;
+
+import java.net.InetSocketAddress;
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.SSLException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component
+public final class ApiServer {
+    @Autowired
+    @Qualifier("tcpSocketAddress")
+    private InetSocketAddress address;
+
+    @Autowired
+    @Qualifier("workerThreadCount")
+    private int workerThreadCount;
+
+    @Autowired
+    @Qualifier("bossThreadCount")
+    private int bossThreadCount;
+
+    public void start() {
+        EventLoopGroup bossGroup = new NioEventLoopGroup(bossThreadCount);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(workerThreadCount);
+        ChannelFuture channelFuture = null;
+
+        try {
+
+            // http 포트로 접속을 차단함.
+            //  ServerBootstrap b = new ServerBootstrap();
+//            b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+//                    .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new ApiServerInitializer(null));
+//            Channel ch = b.bind(8080).sync().channel();
+//            channelFuture = ch.closeFuture();
+            
+            //channelFuture.sync();            
+            
+            final SslContext sslCtx;
+            SelfSignedCertificate ssc = new SelfSignedCertificate();
+            sslCtx = SslContext.newServerContext(ssc.certificate(), ssc.privateKey());
+                        
+            ServerBootstrap b2 = new ServerBootstrap();
+            b2.group(bossGroup,workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new ApiServerInitializer(sslCtx));
+            
+            Channel ch2 = b2.bind(8443).sync().channel();
+            
+            channelFuture = ch2.closeFuture();
+            channelFuture.sync();
+            
+        }
+        catch (InterruptedException | CertificateException e) {
+            e.printStackTrace();
+        }
+        catch (SSLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        finally {
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+        }
+    }
+
+    // private ChannelFuture initializeServerNetworkBySSL(EventLoopGroup
+    // bossGroup, EventLoopGroup workerGroup, int listenPort) throws
+    // InterruptedException {
+    // SslContext sslCtx = null;
+    //
+    // try {
+    // File certChainFile =
+    // ConfigReader.getInstance().getConfigFile(CoreConstantsName.SSL_PUBLIC_KEY);
+    // File keyFile =
+    // ConfigReader.getInstance().getConfigFile(CoreConstantsName.SSL_PRIVATE_KEY);
+    //
+    // sslCtx = SslContext.newServerContext(certChainFile, keyFile, null);
+    // }
+    // catch (SSLException | FileNotFoundException e) {
+    // logger.error(e);
+    // }
+    //
+    // ServerBootstrap b = new ServerBootstrap();
+    // b.group(bossGroup, workerGroup)
+    // .channel(NioServerSocketChannel.class)
+    // .handler(new LoggingHandler(LogLevel.INFO))
+    // .childHandler(new BigbrotherServerInitializer(sslCtx));
+    //
+    // Channel ch = b.bind(listenPort + 1000).sync().channel();
+    //
+    // ChannelFuture channelFuture = null;
+    // channelFuture = ch.closeFuture();
+    //
+    // logger.info(DisplayForLog.makeFooter());
+    //
+    // return channelFuture;
+    // }
+}

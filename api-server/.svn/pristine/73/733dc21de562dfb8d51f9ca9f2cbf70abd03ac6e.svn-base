@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!-- 
+#ConfigSection
+DB 데이터소스 빈 객체 설정 : DB 접속정보 설정,
+sqlSessiongFactoryBean 객체 설정  : 맵퍼 경로지정 및 파일이름 와이드카드 설정,
+sqlSessionTemplateBean 객체 설정 하는 부분
+ -->
+ 	<!-- GroupWare Section -->
+ 	<!-- Data Source -->
+    <bean id="dataSource_gw"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">        
+        <!-- JDBC 드라이버 클래스명 설정 -->
+        <property name="driverClassName">
+            <value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+        </property>        
+        <!-- JDBC 접속 문자열 설정 -->
+        <property name="url">
+            <value>jdbc:sqlserver://10.206.186.22:1433;databaseName=CrewworksV80_DAESUNG</value>
+        </property>        
+        <property name="username">
+            <value>dazone</value>
+        </property>
+        <property name="password">
+            <value>crewworksv8daesung</value>
+        </property>
+    </bean>
+    
+    <bean id="sqlSessionFactory_gw" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource_gw" />
+        <property name="typeAliasesPackage" value="mapper" />
+        <property name="mapperLocations" value="classpath:mapper/gw/*.xml" />
+    </bean>    
+
+    <bean id="sqlSession_gw" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory_gw"/>
+    </bean>
+    <!-- GroupWare Section -->
+    
+    <!-- ERP Section -->
+ 	<!-- Data Source -->
+    <bean id="dataSource_erp"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">        
+        <!-- JDBC 드라이버 클래스명 설정 -->
+        <property name="driverClassName">
+            <value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+        </property>        
+        <!-- JDBC 접속 문자열 설정 -->
+        <property name="url">
+            <value>jdbc:sqlserver://10.206.186.22:1433;databaseName=ERP</value>
+        </property>        
+        <property name="username">
+            <value>dserp</value>
+        </property>
+        <property name="password">
+            <value>qwer@123</value>
+        </property>
+    </bean>
+    
+    <bean id="sqlSessionSessionFactory_erp" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource_erp" />
+        <property name="typeAliasesPackage" value="mapper" />
+        <property name="mapperLocations" value="classpath:mapper/erp/*.xml" />
+    </bean>    
+
+    <bean id="sqlSession_erp" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionSessionFactory_erp"/>
+    </bean>
+    <!-- ERP Section -->
+    
+     <!-- QMS Section -->
+ 	<!-- Data Source -->
+    <bean id="dataSource_qms"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">        
+        <!-- JDBC 드라이버 클래스명 설정 -->
+        <property name="driverClassName">
+            <value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+        </property>        
+        <!-- JDBC 접속 문자열 설정 -->
+        <property name="url">
+            <value>jdbc:sqlserver://10.206.186.22:1433;databaseName=QMS</value>
+        </property>        
+        <property name="username">
+            <value>dserp</value>
+        </property>
+        <property name="password">
+            <value>qwer@123</value>
+        </property>
+    </bean>
+    
+    <bean id="sqlSessionSessionFactory_qms" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource_qms" />
+        <property name="typeAliasesPackage" value="mapper" />
+        <property name="mapperLocations" value="classpath:mapper/qms/*.xml" />
+    </bean>    
+
+    <bean id="sqlSession_qms" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionSessionFactory_qms"/>
+    </bean>
+    <!-- QMS Section -->
+   
+   <!-- MMS Section -->
+ 	<!-- Data Source -->
+    <bean id="dataSource_mms"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">        
+        <!-- JDBC 드라이버 클래스명 설정 -->
+        <property name="driverClassName">
+            <value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+        </property>        
+        <!-- JDBC 접속 문자열 설정 -->
+        <property name="url">
+            <value>jdbc:sqlserver://10.206.186.22:1433;databaseName=MMS</value>
+        </property>        
+        <property name="username">
+            <value>dserp</value>
+        </property>
+        <property name="password">
+            <value>qwer@123</value>
+        </property>
+    </bean>
+    
+    <bean id="sqlSessionSessionFactory_mms" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource_mms" />
+        <property name="typeAliasesPackage" value="mapper" />
+        <property name="mapperLocations" value="classpath:mapper/mms/*.xml" />
+    </bean>    
+
+    <bean id="sqlSession_mms" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionSessionFactory_mms"/>
+    </bean>
+    <!-- MMS Section -->
+    
+     
+	<!-- DSL Section -->
+ 	<!-- Data Source -->
+    <bean id="dataSource_dsl"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">        
+        <!-- JDBC 드라이버 클래스명 설정 -->
+        <property name="driverClassName">
+            <value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+        </property>        
+        <!-- JDBC 접속 문자열 설정 -->
+        <property name="url">
+            <value>jdbc:sqlserver://10.206.186.22:1433;databaseName=DSL</value>
+        </property>        
+        <property name="username">
+            <value>dserp</value>
+        </property>
+        <property name="password">
+            <value>qwer@123</value>
+        </property>
+    </bean>
+    
+    <bean id="sqlSessionSessionFactory_dsl" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource_dsl" />
+        <property name="typeAliasesPackage" value="mapper" />
+        <property name="mapperLocations" value="classpath:mapper/dsl/*.xml" />
+    </bean>    
+
+    <bean id="sqlSession_dsl" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionSessionFactory_dsl"/>
+    </bean>
+    <!-- DSL Section -->
+    
+    
+    
+    
+    <!-- EIS Section -->
+ 	<!-- Data Source -->
+    <bean id="dataSource_eis"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">        
+        <!-- JDBC 드라이버 클래스명 설정 -->
+        <property name="driverClassName">
+            <value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+        </property>        
+        <!-- JDBC 접속 문자열 설정 -->
+        <property name="url">
+            <value>jdbc:sqlserver://10.206.186.22:1433;databaseName=EIS</value>
+        </property>        
+        <property name="username">
+            <value>dserp</value>
+        </property>
+        <property name="password">
+            <value>qwer@123</value>
+        </property>
+    </bean>
+    
+    <bean id="sqlSessionSessionFactory_eis" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource_eis" />
+        <property name="typeAliasesPackage" value="mapper" />
+        <property name="mapperLocations" value="classpath:mapper/eis/*.xml" />
+    </bean>    
+
+    <bean id="sqlSession_eis" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionSessionFactory_eis"/>
+    </bean>
+    <!-- EIS Section -->
+    
+</beans>
+

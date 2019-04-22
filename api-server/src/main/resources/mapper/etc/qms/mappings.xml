@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+#ConfigSection
+데이터베이스에 질의할 구문을 작성하는곳
+ -->
+
+<mapper namespace="mappings">
+	<select id="mappingList" parameterType="map" resultType="map">
+		<choose>		
+		<when  test="wset_cd == 'All'.toString()">
+		select	seq = 3, 
+		chk = '1',
+		ty = '',
+		frm_cd = #{frm_cd}, wset_cd = '', fld_nm = '', 
+		ctr_nm = b.ctr_nm,
+		read_ctr_nm = null,
+		parent_nm = '',
+		b.ctr_ty, b.tbl_nm, b.col_nm, b.dic_cd, 
+		b.title, b.x, b.y, b.width, b.height, b.tab_index, 
+		b.popup_id, popup_nm = (select z.title from scl100 z where z.popup_id = b.popup_id),
+		read_yn = isnull(b.read_yn,'0'), hide_yn = isnull(b.hide_yn,'0'), 
+		need_yn = isnull(b.need_yn,'0'), fix_yn = isnull(b.fix_yn,'0'),
+		merge_yn= isnull(b.merge_yn,'0'), nobind_yn = isnull(b.nobind_yn,'0'),
+		group_yn= isnull(b.group_yn,'0'), 
+		ttl_hide_yn = isnull(b.ttl_hide_yn,'0'),
+		b.ttl_style_ty, b.ttl_border_ty, b.ttl_align_ty, b.txt_align_ty, b.mask,
+		b.def_text, b.fmt_ty, b.sum_ty, b.compu_sq, b.compu_text, b.clr_cd, 
+		use_yn = isnull(b.use_yn,'1'), b.exist_yn, b.dsc,
+		x.pivot_area, x.pivot_index, x.pivot_sum_ty,
+		b.band1_title, b.band2_title
+	from	scc100 b
+		left join scc101 x on x.frm_cd = b.frm_cd and x.ctr_nm = b.ctr_nm
+	where	b.frm_cd  = #{frm_cd}
+
+	order by b.ctr_nm
+		</when>
+		<otherwise>
+		select	seq = 1, 
+	chk = case when a.in_param is not null then
+				'1'
+			else
+				'0'
+			end,
+	ty = 'parameter',
+	frm_cd = #{frm_cd}, c.wset_cd, fld_nm = c.in_param, 
+	a.ctr_nm, read_ctr_nm = '',
+	b.parent_nm, b.ctr_ty, b.tbl_nm, b.col_nm, b.dic_cd, 
+	b.title, b.x, b.y, b.width, b.height, b.tab_index, 
+	b.popup_id, popup_nm = (select z.title from scl100 z where z.popup_id = b.popup_id),
+	read_yn = isnull(b.read_yn,'0'), hide_yn = isnull(b.hide_yn,'0'), 
+	need_yn = isnull(b.need_yn,'0'), fix_yn = isnull(b.fix_yn,'0'),
+	merge_yn= isnull(b.merge_yn,'0'), nobind_yn = isnull(b.nobind_yn,'0'),
+	group_yn= isnull(b.group_yn,'0'), 
+	ttl_hide_yn = isnull(b.ttl_hide_yn,'0'),
+	b.ttl_style_ty, b.ttl_border_ty, b.ttl_align_ty, b.txt_align_ty, b.mask,
+	b.def_text, b.fmt_ty, b.sum_ty, b.compu_sq, b.compu_text, b.clr_cd, 
+	use_yn = isnull(b.use_yn,'1'), b.exist_yn, b.dsc,
+	x.pivot_area, x.pivot_index, x.pivot_sum_ty,
+	b.band1_title, b.band2_title
+from	scw110 c
+	left join scf160 a
+	on	a.frm_cd = #{frm_cd}
+	and	a.wset_cd = c.wset_cd
+	and	a.in_param = c.in_param
+	left join scc100 b
+	on	b.frm_cd = #{frm_cd}
+	and	b.ctr_nm = a.ctr_nm
+	left join scc101 x 
+	on 	x.frm_cd = b.frm_cd 
+	and 	x.ctr_nm = b.ctr_nm
+where	c.wset_cd = #{wset_cd}
+
+
+union
+
+
+select	seq = 2, 
+	chk = case when a.fld_nm is not null then
+				'1'
+			else
+				'0'
+			end,
+	ty = case d.wset_ty when  'Grid' then
+				'grid_column'
+			else
+				'field'
+			end,
+	frm_cd = #{frm_cd}, c.wset_cd, c.fld_nm, 
+	ctr_nm = case when isnull(a.read_yn,'0') = '0' then
+				a.ctr_nm
+			end,
+	read_ctr_nm = case when isnull(a.read_yn,'0') = '1' then
+				a.ctr_nm
+			end,
+	parent_nm = case d.wset_ty when  'Grid' then
+				d.grid_nm
+			else
+				b.parent_nm
+			end,
+	b.ctr_ty, b.tbl_nm, b.col_nm, b.dic_cd, 
+	b.title, b.x, b.y, b.width, b.height, 
+	tab_index = case when isnull(a.read_yn,'0') = '0' then
+				isnull(b.tab_index, c.reg_no)
+			else
+				null
+			end,
+	b.popup_id, popup_nm = (select z.title from scl100 z where z.popup_id = b.popup_id),
+	read_yn = isnull(b.read_yn,'0'), hide_yn = isnull(b.hide_yn,'0'), 
+	need_yn = isnull(b.need_yn,'0'), fix_yn = isnull(b.fix_yn,'0'),
+	merge_yn= isnull(b.merge_yn,'0'), nobind_yn = isnull(b.nobind_yn,'0'),
+	group_yn= isnull(b.group_yn,'0'), 
+	ttl_hide_yn = isnull(b.ttl_hide_yn,'0'),
+	b.ttl_style_ty, b.ttl_border_ty, b.ttl_align_ty, b.txt_align_ty, b.mask,
+	b.def_text, b.fmt_ty, b.sum_ty, b.compu_sq, b.compu_text, b.clr_cd, 
+	use_yn = isnull(b.use_yn,'1'), b.exist_yn, b.dsc,
+	x.pivot_area, x.pivot_index, x.pivot_sum_ty,
+	b.band1_title, b.band2_title
+from	scw120 c
+	left join scf170 a
+	on	a.frm_cd = #{frm_cd}
+	and	a.wset_cd = c.wset_cd
+	and	a.fld_nm  = c.fld_nm
+	left join scc100 b
+	on	b.frm_cd = #{frm_cd}
+	and	b.ctr_nm = a.ctr_nm
+	left join scf150 d
+	on	d.frm_cd = #{frm_cd}
+	and	d.wset_cd = c.wset_cd
+	left join scc101 x 
+	on 	x.frm_cd = b.frm_cd 
+	and 	x.ctr_nm = b.ctr_nm
+where	c.wset_cd = #{wset_cd}
+
+union
+
+
+select	seq = 3, 
+	chk = '0',
+	ty = case d.wset_ty when  'Grid' then
+			'grid_column'
+		else
+			'field'
+		end,
+	frm_cd = #{frm_cd}, d.wset_cd, fld_nm = '', 
+	ctr_nm = b.ctr_nm,
+	read_ctr_nm = null,
+	parent_nm = d.grid_nm,
+	b.ctr_ty, b.tbl_nm, b.col_nm, b.dic_cd, 
+	b.title, b.x, b.y, b.width, b.height, b.tab_index, 
+	b.popup_id, popup_nm = (select z.title from scl100 z where z.popup_id = b.popup_id),
+	read_yn = isnull(b.read_yn,'0'), hide_yn = isnull(b.hide_yn,'0'), 
+	need_yn = isnull(b.need_yn,'0'), fix_yn = isnull(b.fix_yn,'0'),
+	merge_yn= isnull(b.merge_yn,'0'), nobind_yn = isnull(b.nobind_yn,'0'),
+	group_yn= isnull(b.group_yn,'0'), 
+	ttl_hide_yn = isnull(b.ttl_hide_yn,'0'),
+	b.ttl_style_ty, b.ttl_border_ty, b.ttl_align_ty, b.txt_align_ty, b.mask,
+	b.def_text, b.fmt_ty, b.sum_ty, b.compu_sq, b.compu_text, b.clr_cd, 
+	use_yn = isnull(b.use_yn,'1'), b.exist_yn, b.dsc,
+	x.pivot_area, x.pivot_index, x.pivot_sum_ty,
+	b.band1_title, b.band2_title
+from	scf150 d
+	join scc100 b
+	on	b.frm_cd = d.frm_cd
+	and	b.parent_nm = d.grid_nm
+	left join scc101 x 
+	on 	x.frm_cd = b.frm_cd 
+	and 	x.ctr_nm = b.ctr_nm
+where	d.frm_cd  = #{frm_cd}
+and	d.wset_cd = #{wset_cd}
+and	not exists (select 0 from scf170 z
+			where	z.frm_cd = d.frm_cd
+			and	z.wset_cd = d.wset_cd
+			and	z.ctr_nm  = b.ctr_nm )
+
+order by seq, tab_index
+		
+		</otherwise>
+		</choose> 
+	</select>	
+</mapper>
+
+
+<!-- 
+USERNO INT GENERATED BY DEFAULT AS IDENTITY 
+          (START WITH 1, INCREMENT BY 1) NOT NULL,
+    USERID VARCHAR(45) NOT NULL,
+	USERNAME VARCHAR(45) NOT NULL,
+	PASSWORD VARCHAR(45) NOT NULL,
+ -->

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!-- 
+#ConfigSection
+DB 데이터소스 빈 객체 설정 : DB 접속정보 설정,
+sqlSessiongFactoryBean 객체 설정  : 맵퍼 경로지정 및 파일이름 와이드카드 설정,
+sqlSessionTemplateBean 객체 설정 하는 부분
+ -->
+ 	<!-- NBW Section -->
+ 	<!-- Data Source -->
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">        
+        <!-- JDBC 드라이버 클래스명 설정 -->
+        <property name="driverClassName">
+            <value>org.mariadb.jdbc.Driver</value>
+        </property>        
+        <!-- JDBC 접속 문자열 설정 -->
+        <property name="url">
+            <value>jdbc:sqlserver://127.0.0.1:3306;databaseName=NWB</value>
+        </property>        
+        <property name="username">
+            <value>root</value>
+        </property>
+        <property name="password">
+            <value>!0TU$npc</value>
+        </property>
+    </bean>
+    
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="mapper" />
+        <property name="mapperLocations" value="classpath:mapper/nwb/*.xml" />
+    </bean>    
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+    <!-- NBW Section -->
+    
+</beans>
+
