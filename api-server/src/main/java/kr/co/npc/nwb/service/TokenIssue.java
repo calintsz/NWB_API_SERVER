@@ -51,45 +51,45 @@ public class TokenIssue extends ApiRequestTemplate {
     public void service() throws ServiceException {
         Jedis jedis = null;
         try {
-            Map<String, Object> result = sqlSession.selectOne("users.userInfoByPassword", this.reqData);
-
-            if (result != null) {
-                final long threeHour = 60 * 60 * 3;
-                long issueDate = System.currentTimeMillis() / 1000;
-                String userGwId = String.valueOf(result.get("userGwId"));
-                String userNm1 = String.valueOf(result.get("userNm1"));
-                String userSysId = String.valueOf(this.reqData.get("userSysId"));
-                
-                // token 만들기.
-                JsonObject token = new JsonObject();
-                token.addProperty("issueDate", issueDate);
-                token.addProperty("expireDate", issueDate + threeHour);
-                token.addProperty("userGwId", userGwId);
-                token.addProperty("userSysId", userSysId);
-                token.addProperty("userNm1", userNm1);
-                
-                // token 저장.
-                KeyMaker tokenKey = new TokenKey(userGwId, userSysId, issueDate);
-                jedis = helper.getConnection();
-                jedis.setex(tokenKey.getKey(), 60 * 60 * 3, token.toString());
-                
-                // changePwd 
-                HashMap<String,String> datas = new HashMap<String,String>();                
-                datas.put("userSysId",userSysId);
-                datas.put("userGwId",userGwId);
-                datas.put("token", tokenKey.getKey());
-
-                // helper.
-                this.apiResult.addProperty("resultCode", "200");
-                this.apiResult.addProperty("message", "Success");
-                this.apiResult.addProperty("token", tokenKey.getKey());
-            }
-            else {
-                // 데이터 없음.
-                this.apiResult.addProperty("resultCode", "404");
-            }
-            
-            helper.returnResource(jedis);
+//            Map<String, Object> result = sqlSession.selectOne("users.userInfoByPassword", this.reqData);
+//
+//            if (result != null) {
+//                final long threeHour = 60 * 60 * 3;
+//                long issueDate = System.currentTimeMillis() / 1000;
+//                String userGwId = String.valueOf(result.get("userGwId"));
+//                String userNm1 = String.valueOf(result.get("userNm1"));
+//                String userSysId = String.valueOf(this.reqData.get("userSysId"));
+//                
+//                // token 만들기.
+//                JsonObject token = new JsonObject();
+//                token.addProperty("issueDate", issueDate);
+//                token.addProperty("expireDate", issueDate + threeHour);
+//                token.addProperty("userGwId", userGwId);
+//                token.addProperty("userSysId", userSysId);
+//                token.addProperty("userNm1", userNm1);
+//                
+//                // token 저장.
+//                KeyMaker tokenKey = new TokenKey(userGwId, userSysId, issueDate);
+//                jedis = helper.getConnection();
+//                jedis.setex(tokenKey.getKey(), 60 * 60 * 3, token.toString());
+//                
+//                // changePwd 
+//                HashMap<String,String> datas = new HashMap<String,String>();                
+//                datas.put("userSysId",userSysId);
+//                datas.put("userGwId",userGwId);
+//                datas.put("token", tokenKey.getKey());
+//
+//                // helper.
+//                this.apiResult.addProperty("resultCode", "200");
+//                this.apiResult.addProperty("message", "Success");
+//                this.apiResult.addProperty("token", tokenKey.getKey());
+//            }
+//            else {
+//                // 데이터 없음.
+//                this.apiResult.addProperty("resultCode", "404");
+//            }
+//            
+//            helper.returnResource(jedis);
         }
         catch (Exception e) {
             helper.returnResource(jedis);

@@ -22,7 +22,7 @@ public class MariasqlDataSource {
   public BasicDataSource dataSource() {
       BasicDataSource dataSource = new BasicDataSource();
       dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-      dataSource.setUrl("jdbc:sqlserver://127.0.0.1:3306;databaseName=NBW");
+      dataSource.setUrl("jdbc:mariadb://127.0.0.1:3306/NWB");
       dataSource.setUsername("root");
       dataSource.setPassword("!0TU$npc");
       return dataSource;

@@ -11,8 +11,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@ImportResource("classpath:spring/mssqlApplicationContext.xml")
-@ComponentScan("kr.co.dstrust.dsl.core, kr.co.dstrust.dsl, kr.co.dstrust.dsl.service")
+@ImportResource("classpath:spring/sqlApplicationContext.xml")
+@ComponentScan("kr.co.npc.nwb.core, kr.co.npc.nwb, kr.co.npc.nwb.service")
 @PropertySource("classpath:api-server.properties")
 public class ApiServerConfig {
     @Value("${boss.thread.count}")

@@ -25,20 +25,9 @@ public class connectDB {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
-        String connectionUrl = "jdbc:sqlserver://10.206.186.22:1433;" + "databaseName=CrewworksV80_DAESUNG;";//(db서버가 따로 존재한다면 로컬호스트:포트번호 대신 서버아이피:포트번호 를 입력하면된다.
-
+        String connectionUrl = "jdbc:mariadb://127.0.0.1:3306/NWB";//(db서버가 따로 존재한다면 로컬호스트:포트번호 대신 서버아이피:포트번호 를 입력하면된다.
         //gw db 테스트
-        testDB(connectionUrl,"dazone","crewworksv8daesung");
-
-        connectionUrl = "jdbc:sqlserver://10.206.186.22:1433;" + "databaseName=ERP;";//(db서버가 따로 존재한다면 로컬호스트:포트번호 대신 서버아이피:포트번호 를 입력하면된다.
-        //erp db 테스트        
-        testDB(connectionUrl,"dserp","qwer@123");        
-        connectionUrl = "jdbc:sqlserver://10.206.186.22:1433;" + "databaseName=QMS;";//(db서버가 따로 존재한다면 로컬호스트:포트번호 대신 서버아이피:포트번호 를 입력하면된다.
-        //qms db 테스트        
-        testDB(connectionUrl,"dserp","qwer@123");
-        connectionUrl = "jdbc:sqlserver://10.206.186.22:1433;" + "databaseName=MMS;";//(db서버가 따로 존재한다면 로컬호스트:포트번호 대신 서버아이피:포트번호 를 입력하면된다.
-        //mms db 테스트        
-        testDB(connectionUrl,"dserp","qwer@123");
+        testDB(connectionUrl,"root","!0TU$npc");
 
 
     }
@@ -62,7 +51,7 @@ public class connectDB {
 
             // Establish the connection.
 
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("org.mariadb.jdbc.Driver");
 
             System.out.println("Driver okay");
 
