@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>kr.co.dstrust</groupId>
+	<groupId>kr.co.npc</groupId>
 	<artifactId>api-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -10,7 +10,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<spring.version>4.1.6.RELEASE</spring.version>
 	</properties>
 
@@ -28,12 +28,12 @@
 		</dependency>
 
 		<dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-    
-    
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -47,12 +47,24 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>org.mariadb.jdbc</groupId>
-		    <artifactId>mariadb-java-client</artifactId>
-		    <version>1.5.7</version>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>1.5.7</version>
 		</dependency>
 
- 
+		<!-- Swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+
 		<!-- MyBatis 3.4.1 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -120,11 +132,14 @@
 		<repository>
 			<id>local</id>
 			<name>local</name>
-			<url>file:\\c:\Users\user\.m2\repository</url>
+			<url>file:\\c:\Users\jskwak\.m2\repository</url>
 		</repository>
 	</repositories>
+	
+	<!-- 빌드 소스 -->
 	<build>
-		<plugins>			<plugin>
+		<plugins>
+			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
 					<descriptorRefs>
@@ -136,7 +151,8 @@
 						</manifest>
 					</archive>
 				</configuration>
-			</plugin>			<plugin>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
@@ -148,9 +164,10 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>kr.co.dstrust.dsl.ApiServer</mainClass>
+					<mainClass>kr.co.npc.nwb.ApiServer</mainClass>
 				</configuration>
-			</plugin>			<plugin>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
@@ -166,4 +183,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<!-- 빌드 소스 -->
 </project>

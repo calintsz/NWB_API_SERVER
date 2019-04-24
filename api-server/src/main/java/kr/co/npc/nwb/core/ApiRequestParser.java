@@ -58,31 +58,38 @@ public class ApiRequestParser extends SimpleChannelInboundHandler<FullHttpMessag
 
     private static final Set<String> usingHeader = new HashSet<String>();
     static {
-        usingHeader.add("token");
-        usingHeader.add("userGwId");
-        usingHeader.add("userSysId");
-        usingHeader.add("in_no");
-        usingHeader.add("in_seq");
-        usingHeader.add("db_name");
-        usingHeader.add("frm_cd");
-        usingHeader.add("wset_cd");
-        usingHeader.add("query");
-        usingHeader.add("o_param");
-        usingHeader.add("u_info");
-        usingHeader.add("sql_type");
-        usingHeader.add("popup_nm");
-        usingHeader.add("reg_id");
-        usingHeader.add("j_param");
-        usingHeader.add("jmp_db_name");
-        usingHeader.add("frm_nm");
-        usingHeader.add("ip");
-        usingHeader.add("mac");
-        usingHeader.add("work_group");
-        usingHeader.add("host_name");
-        usingHeader.add("j_hardware_info");
-        usingHeader.add("is_success");
-        usingHeader.add("userPwd");
-        usingHeader.add("request_time");        
+        usingHeader.add("user_id");
+        usingHeader.add("id");
+        usingHeader.add("pwd");
+        usingHeader.add("name");
+        usingHeader.add("authority");
+        usingHeader.add("remarks");   
+        
+//        usingHeader.add("token");
+//        usingHeader.add("userGwId");
+//        usingHeader.add("userSysId");
+//        usingHeader.add("in_no");
+//        usingHeader.add("in_seq");
+//        usingHeader.add("db_name");
+//        usingHeader.add("frm_cd");
+//        usingHeader.add("wset_cd");
+//        usingHeader.add("query");
+//        usingHeader.add("o_param");
+//        usingHeader.add("u_info");
+//        usingHeader.add("sql_type");
+//        usingHeader.add("popup_nm");
+//        usingHeader.add("reg_id");
+//        usingHeader.add("j_param");
+//        usingHeader.add("jmp_db_name");
+//        usingHeader.add("frm_nm");
+//        usingHeader.add("ip");
+//        usingHeader.add("mac");
+//        usingHeader.add("work_group");
+//        usingHeader.add("host_name");
+//        usingHeader.add("j_hardware_info");
+//        usingHeader.add("is_success");
+//        usingHeader.add("userPwd");
+//        usingHeader.add("request_time");        
     }
 
     @Override

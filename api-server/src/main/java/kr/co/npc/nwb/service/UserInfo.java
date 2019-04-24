@@ -23,13 +23,13 @@ import kr.co.npc.nwb.core.ApiRequestTemplate;
 import kr.co.npc.nwb.core.KeyMaker;
 import kr.co.npc.nwb.service.dao.TokenKey;
 
-@Service("users")
+@Service("userInfo")
 @Qualifier()
 //@Qualifier("sqlSessionTemplate")
 @Scope("prototype")
 public class UserInfo extends ApiRequestTemplate {
     @Autowired
-    //@Resource(name="sqlSession")        
+    //@Resource(name="sqlSession")        XX
     private SqlSession sqlSession;
     
     
@@ -39,14 +39,8 @@ public class UserInfo extends ApiRequestTemplate {
 
     @Override
     public void requestParamValidation() throws RequestParamException {
-        if (StringUtils.isEmpty(this.reqData.get("userGwId"))) {
-            throw new RequestParamException("userGwId 유저 아이디가 없습니다.");
-        }
-        if (StringUtils.isEmpty(this.reqData.get("db_name"))) {
-            throw new RequestParamException("db_name 이 없습니다.");
-        }
-        if (StringUtils.isEmpty(this.reqData.get("userSysId"))) {
-            throw new RequestParamException("UserInfo 유저 아이디가 없습니다.");
+        if (StringUtils.isEmpty(this.reqData.get("id"))) {
+            throw new RequestParamException("유저 아이디가 없습니다.");
         }
     }
 
@@ -57,42 +51,38 @@ public class UserInfo extends ApiRequestTemplate {
         // 출력 message API 처리 결과 메시지를 돌려준다. API의 처리결과가 정상일 때는 Success 메시지를 돌려주며
         // 나머지 정상이 아닐 때는 오류 메시지를 돌려준다.
         // 출력 userNo 입력된 이메일에 해당하는 사용자의 사용자 번호를 돌려준다.
-        
-        String db_name = this.reqData.get("db_name");
-        SqlSession sql_session = sqlSession;
-        
-        
-        userInfo(sql_session);
+              
+        userInfo(sqlSession);
     }
     public void userInfo(SqlSession sqlSession)
     {
-//        Map<String, Object> result = sqlSession.selectOne("users.userInfoById", this.reqData);
-//
-//        if (result != null) 
-//        {
-//            JsonObject workset = null;
-//            //result
-//            
-//                Map<String, Object> data = result; 
-//                Set<String> keys = data.keySet();
-//                workset = new JsonObject();
-//                for(String key : keys)
-//                {                        
-//                    String value = "";
-//                    if (data.get(key) != null)
-//                        value = data.get(key).toString();
-//                    
-//                    workset.addProperty(key, value);                            
-//                }                                      
-//            this.apiResult.addProperty("resultCode", "200");
-//            this.apiResult.addProperty("message", "Success");
-//            this.apiResult.add("userInfos", workset);               
-//        }
-//        else 
-//        {
-//            // 데이터 없음.
-//            this.apiResult.addProperty("resultCode", "404");
-//        }    
+        Map<String, Object> result = sqlSession.selectOne("users.userInfoById", this.reqData);
+
+        if (result != null) 
+        {
+            JsonObject workset = null;
+            //result
+            
+                Map<String, Object> data = result; 
+                Set<String> keys = data.keySet();
+                workset = new JsonObject();
+                for(String key : keys)
+                {                        
+                    String value = "";
+                    if (data.get(key) != null)
+                        value = data.get(key).toString();
+                    
+                    workset.addProperty(key, value);                            
+                }                                      
+            this.apiResult.addProperty("resultCode", "200");
+            this.apiResult.addProperty("message", "Success");
+            this.apiResult.add("userInfos", workset);               
+        }
+        else 
+        {
+            // 데이터 없음.
+            this.apiResult.addProperty("resultCode", "404");
+        }    
     }
     
     public void gwUserInfo(SqlSession sqlSession)

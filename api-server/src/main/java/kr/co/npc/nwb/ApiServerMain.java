@@ -18,7 +18,10 @@ public class ApiServerMain
         }
         finally 
         {
-            springContext.close();
+            if(springContext!=null)
+                springContext.close();
+            else
+                System.out.println("springContext is null!");
         }
     }
 }
