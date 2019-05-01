@@ -81,18 +81,23 @@ public class ServiceDispatcher {
                 break;
             }
         }
-        else if (serviceUri.startsWith("/userDetails")) 
+        else if (serviceUri.startsWith("/checks")) 
         {           
             String httpMethod = requestMap.get("REQUEST_METHOD");
             
             switch (httpMethod) 
             {
             case "POST":
+                beanName = "checkAdd";
+                break;
+            case "PUT":
+                beanName = "checkUpdate";
                 break;
             case "DELETE":
+                beanName = "checkRemove";
                 break;
             case "GET":
-                beanName = "userDetailInfo";
+                beanName = "checkInfos";
                 break;
             default:
                 beanName = "notFound";

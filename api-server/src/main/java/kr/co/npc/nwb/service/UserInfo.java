@@ -31,8 +31,8 @@ public class UserInfo extends ApiRequestTemplate {
     @Autowired
     //@Resource(name="sqlSession")        XX
     private SqlSession sqlSession;
-    
-    
+
+
     public UserInfo(Map<String, String> reqData) {
         super(reqData);
     }
@@ -51,29 +51,40 @@ public class UserInfo extends ApiRequestTemplate {
         // 출력 message API 처리 결과 메시지를 돌려준다. API의 처리결과가 정상일 때는 Success 메시지를 돌려주며
         // 나머지 정상이 아닐 때는 오류 메시지를 돌려준다.
         // 출력 userNo 입력된 이메일에 해당하는 사용자의 사용자 번호를 돌려준다.
-              
+
         userInfo(sqlSession);
     }
     public void userInfo(SqlSession sqlSession)
+    {        
+        if ( StringUtils.isEmpty(this.reqData.get("pwd")) ) 
+        {
+            UserInfo(sqlSession, (Map<String, Object>) sqlSession.selectOne("users.userInfoById", this.reqData));
+        }
+        else
+        {
+            UserInfo(sqlSession, (Map<String, Object>) sqlSession.selectOne("users.userInfoByIdPwd", this.reqData));
+        }       
+    }
+
+    public void UserInfo(SqlSession sqlSession, Map<String, Object> result)
     {
-        Map<String, Object> result = sqlSession.selectOne("users.userInfoById", this.reqData);
+
 
         if (result != null) 
         {
             JsonObject workset = null;
-            //result
-            
-                Map<String, Object> data = result; 
-                Set<String> keys = data.keySet();
-                workset = new JsonObject();
-                for(String key : keys)
-                {                        
-                    String value = "";
-                    if (data.get(key) != null)
-                        value = data.get(key).toString();
-                    
-                    workset.addProperty(key, value);                            
-                }                                      
+            //result            
+            Map<String, Object> data = result; 
+            Set<String> keys = data.keySet();
+            workset = new JsonObject();
+            for(String key : keys)
+            {                        
+                String value = "";
+                if (data.get(key) != null)
+                    value = data.get(key).toString();
+
+                workset.addProperty(key, value);                            
+            }                                      
             this.apiResult.addProperty("resultCode", "200");
             this.apiResult.addProperty("message", "Success");
             this.apiResult.add("userInfos", workset);               
@@ -82,24 +93,6 @@ public class UserInfo extends ApiRequestTemplate {
         {
             // 데이터 없음.
             this.apiResult.addProperty("resultCode", "404");
-        }    
-    }
-    
-    public void gwUserInfo(SqlSession sqlSession)
-    {
-//        Map<String, Object> result = sqlSession.selectOne("users.userInfoById", this.reqData);
-//
-//        if (result != null) {
-//            String userNm1 = String.valueOf(result.get("userNm1"));
-//
-//            // helper.
-//            this.apiResult.addProperty("resultCode", "200");
-//            this.apiResult.addProperty("message", "Success");
-//            this.apiResult.addProperty("userNm1", userNm1);
-//        }
-//        else {
-//            // 데이터 없음.
-//            this.apiResult.addProperty("resultCode", "404");
-//        }
+        }
     }
 }
