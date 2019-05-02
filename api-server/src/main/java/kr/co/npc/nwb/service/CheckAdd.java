@@ -62,9 +62,15 @@ public class CheckAdd extends ApiRequestTemplate {
         // 출력 userNo 입력된 이메일에 해당하는 사용자의 사용자 번호를 돌려준다.
               
        // userInfo(sqlSession);
+        String user_id = null;
+        String nwb_id = null;
         
         
-        int cnt =sqlSession.insert("initForm.setInitForm", this.reqData); 
+        
+//        this.reqData.put("user_id", reqeust_time);
+//        this.reqData.put("nwb_id", reqeust_time);
+        
+        int cnt =sqlSession.insert("checks.checkByUserId", this.reqData); 
     }
 //    public void userInfo(SqlSession sqlSession)
 //    {
