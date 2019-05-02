@@ -50,7 +50,7 @@ public final class ApiServer {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new ApiServerInitializer(null));
-            Channel ch = b.bind(8080).sync().channel();
+            Channel ch = b.bind(8443).sync().channel();
             channelFuture = ch.closeFuture();            
             //channelFuture.sync();            
             
@@ -62,7 +62,7 @@ public final class ApiServer {
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ApiServerInitializer(sslCtx));            
-            Channel ch2 = b2.bind(8443).sync().channel();
+            Channel ch2 = b2.bind(9443).sync().channel();
             
             channelFuture = ch2.closeFuture();
             channelFuture.sync();

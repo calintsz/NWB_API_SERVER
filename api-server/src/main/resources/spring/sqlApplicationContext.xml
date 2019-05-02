@@ -28,7 +28,7 @@ sqlSessionTemplateBean 객체 설정 하는 부분
             <value>root</value>
         </property>
         <property name="password">
-            <value>!0TU$npc</value>
+            <value>00000000</value>
         </property>
     </bean>
     

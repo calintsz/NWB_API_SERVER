@@ -39,18 +39,18 @@ public class CheckAdd extends ApiRequestTemplate {
 
     @Override
     public void requestParamValidation() throws RequestParamException {
-        if (StringUtils.isEmpty(this.reqData.get("id"))) {
-            throw new RequestParamException("유저 아이디가 없습니다.");
-        }
-        if (StringUtils.isEmpty(this.reqData.get("pwd"))) {
-            throw new RequestParamException("유저 암호가 없습니다.");
-        }
-        if (StringUtils.isEmpty(this.reqData.get("name"))) {
-            throw new RequestParamException("유저 이름 없습니다.");
-        }
-        if (StringUtils.isEmpty(this.reqData.get("authority"))) {
-            throw new RequestParamException("유저 권한정보가 없습니다.");
-        }
+//        if (StringUtils.isEmpty(this.reqData.get("id"))) {
+//            throw new RequestParamException("유저 아이디가 없습니다.");
+//        }
+//        if (StringUtils.isEmpty(this.reqData.get("pwd"))) {
+//            throw new RequestParamException("유저 암호가 없습니다.");
+//        }
+//        if (StringUtils.isEmpty(this.reqData.get("name"))) {
+//            throw new RequestParamException("유저 이름 없습니다.");
+//        }
+//        if (StringUtils.isEmpty(this.reqData.get("authority"))) {
+//            throw new RequestParamException("유저 권한정보가 없습니다.");
+//        }
     }
 
     @Override
@@ -61,41 +61,44 @@ public class CheckAdd extends ApiRequestTemplate {
         // 나머지 정상이 아닐 때는 오류 메시지를 돌려준다.
         // 출력 userNo 입력된 이메일에 해당하는 사용자의 사용자 번호를 돌려준다.
               
-        userInfo(sqlSession);
+       // userInfo(sqlSession);
+        
+        
+        int cnt =sqlSession.insert("initForm.setInitForm", this.reqData); 
     }
-    public void userInfo(SqlSession sqlSession)
-    {
-        Map<String, Object> result = sqlSession.selectOne("users.userInfoById", this.reqData);
-
-        if (result != null) 
-        {
-            JsonObject workset = null;
-            //result
-            
-                Map<String, Object> data = result; 
-                Set<String> keys = data.keySet();
-                workset = new JsonObject();
-                for(String key : keys)
-                {                        
-                    String value = "";
-                    if (data.get(key) != null)
-                        value = data.get(key).toString();
-                    
-                    workset.addProperty(key, value);                            
-                }                                      
-            this.apiResult.addProperty("resultCode", "200");
-            this.apiResult.addProperty("message", "Success");
-            this.apiResult.add("userInfos", workset);               
-        }
-        else 
-        {
-            // 데이터 없음.
-            this.apiResult.addProperty("resultCode", "404");
-        }    
-    }
+//    public void userInfo(SqlSession sqlSession)
+//    {
+//        Map<String, Object> result = sqlSession.selectOne("users.userInfoById", this.reqData);
+//
+//        if (result != null) 
+//        {
+//            JsonObject workset = null;
+//            //result
+//            
+//                Map<String, Object> data = result; 
+//                Set<String> keys = data.keySet();
+//                workset = new JsonObject();
+//                for(String key : keys)
+//                {                        
+//                    String value = "";
+//                    if (data.get(key) != null)
+//                        value = data.get(key).toString();
+//                    
+//                    workset.addProperty(key, value);                            
+//                }                                      
+//            this.apiResult.addProperty("resultCode", "200");
+//            this.apiResult.addProperty("message", "Success");
+//            this.apiResult.add("userInfos", workset);               
+//        }
+//        else 
+//        {
+//            // 데이터 없음.
+//            this.apiResult.addProperty("resultCode", "404");
+//        }    
+//    }
     
-    public void gwUserInfo(SqlSession sqlSession)
-    {
+//    public void gwUserInfo(SqlSession sqlSession)
+//    {
 //        Map<String, Object> result = sqlSession.selectOne("users.userInfoById", this.reqData);
 //
 //        if (result != null) {
@@ -110,5 +113,5 @@ public class CheckAdd extends ApiRequestTemplate {
 //            // 데이터 없음.
 //            this.apiResult.addProperty("resultCode", "404");
 //        }
-    }
+//    }
 }
