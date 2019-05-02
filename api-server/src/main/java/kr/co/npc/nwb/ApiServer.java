@@ -62,7 +62,7 @@ public final class ApiServer {
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ApiServerInitializer(sslCtx));            
-            Channel ch2 = b2.bind(9443).sync().channel();
+            Channel ch2 = b2.bind(8443).sync().channel();
             
             channelFuture = ch2.closeFuture();
             channelFuture.sync();
