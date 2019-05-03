@@ -59,12 +59,14 @@ public class ApiRequestParser extends SimpleChannelInboundHandler<FullHttpMessag
     private static final Set<String> usingHeader = new HashSet<String>();
     static {
         usingHeader.add("user_id");
+        usingHeader.add("nwb_id");
         usingHeader.add("id");
         usingHeader.add("pwd");
         usingHeader.add("name");
         usingHeader.add("authority");
         usingHeader.add("remarks");
         usingHeader.add("j_param");
+        usingHeader.add("sql_type");
         
 //        usingHeader.add("token");
 //        usingHeader.add("userGwId");

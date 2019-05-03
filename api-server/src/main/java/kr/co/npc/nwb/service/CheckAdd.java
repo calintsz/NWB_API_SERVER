@@ -63,18 +63,26 @@ public class CheckAdd extends ApiRequestTemplate {
             String j_param = this.reqData.get("j_param");
             String user_id = null;
             String nwb_id = null;
+            String lati_str = null;
+            String longi_str = null;
             
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(j_param);
             user_id = element.getAsJsonObject().get("user_id").getAsString();
-            nwb_id = element.getAsJsonObject().get("nwb_id").getAsString();                
-            
+            nwb_id = element.getAsJsonObject().get("nwb_id").getAsString();
+            lati_str = element.getAsJsonObject().get("latitude").getAsString();
+            longi_str = element.getAsJsonObject().get("longitude").getAsString();
+
             this.reqData.put("user_id", user_id);
             this.reqData.put("nwb_id", nwb_id);
+            this.reqData.put("latitude", lati_str);
+            this.reqData.put("longitude", longi_str);
         }       
         
-        int cnt =sqlSession.insert("checks.checkByUserId", this.reqData); 
-      if(cnt != -1)
+        int cnt2 = sqlSession.update("checks.checkGPSByUserId", this.reqData); 
+        int cnt = sqlSession.insert("checks.checkByUserId", this.reqData);
+        
+      if(cnt != -1 && cnt2 != -1)
       {   
           this.apiResult.addProperty("resultCode", "200");
           this.apiResult.addProperty("message", "Success");

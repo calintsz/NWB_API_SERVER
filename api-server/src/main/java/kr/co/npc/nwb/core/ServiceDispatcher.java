@@ -104,7 +104,7 @@ public class ServiceDispatcher {
                 break;
             }
         }
-        else if (serviceUri.startsWith("/worksets"))
+        else if (serviceUri.startsWith("/nwbs"))
         {
             String httpMethod = requestMap.get("REQUEST_METHOD");
             
@@ -115,7 +115,7 @@ public class ServiceDispatcher {
             case "DELETE":
                 break;
             case "GET":
-                beanName = "worksetInfo";
+                beanName = "nwbInfo";
                 break;
             default:
                 beanName = "notFound";

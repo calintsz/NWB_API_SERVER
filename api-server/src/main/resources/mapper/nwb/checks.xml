@@ -7,14 +7,22 @@
  -->
 
 <mapper namespace="checks">
-	<select id="checkByUserId" resultType="map">
+	<insert id="checkByUserId" parameterType="map">
 		insert into checks 
 		( user_id, nwb_id ) 
 		values 
 		( #{user_id}, #{nwb_id} )
 		on DUPLICATE KEY UPDATE 
 		user_id = values(user_id);
-	</select>
+	</insert>
+	
+	<update id="checkGPSByUserId" parameterType="map">
+		update nwb
+		set latitude = #{latitude},
+		longitude = #{longitude}
+		where
+		nwb_id = #{nwb_id};	
+	</update>
 	
 	<select id="userInfoByIdPwd" resultType="map">
 		select user_id, id, name, authority, remarks from user where id=#{id} and pwd=#{pwd}
