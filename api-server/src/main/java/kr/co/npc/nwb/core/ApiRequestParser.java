@@ -63,7 +63,8 @@ public class ApiRequestParser extends SimpleChannelInboundHandler<FullHttpMessag
         usingHeader.add("pwd");
         usingHeader.add("name");
         usingHeader.add("authority");
-        usingHeader.add("remarks");   
+        usingHeader.add("remarks");
+        usingHeader.add("j_param");
         
 //        usingHeader.add("token");
 //        usingHeader.add("userGwId");

@@ -8,8 +8,12 @@
 
 <mapper namespace="checks">
 	<select id="checkByUserId" resultType="map">
-		insert into ( user_id, nwb_id )
-		values (#{user_id}, #{nwb_id})
+		insert into checks 
+		( user_id, nwb_id ) 
+		values 
+		( #{user_id}, #{nwb_id} )
+		on DUPLICATE KEY UPDATE 
+		user_id = values(user_id);
 	</select>
 	
 	<select id="userInfoByIdPwd" resultType="map">

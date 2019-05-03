@@ -1,27 +1,20 @@
 package kr.co.npc.nwb.service;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 //import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import redis.clients.jedis.Jedis;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import kr.co.npc.nwb.core.ApiRequestTemplate;
-import kr.co.npc.nwb.core.KeyMaker;
-import kr.co.npc.nwb.service.dao.TokenKey;
 
 @Service("checkAdd")
 @Qualifier()
@@ -39,9 +32,9 @@ public class CheckAdd extends ApiRequestTemplate {
 
     @Override
     public void requestParamValidation() throws RequestParamException {
-//        if (StringUtils.isEmpty(this.reqData.get("id"))) {
-//            throw new RequestParamException("유저 아이디가 없습니다.");
-//        }
+        if (StringUtils.isEmpty(this.reqData.get("j_param"))) {
+            throw new RequestParamException("매개변수 j_param 이 없습니다.");
+        }
 //        if (StringUtils.isEmpty(this.reqData.get("pwd"))) {
 //            throw new RequestParamException("유저 암호가 없습니다.");
 //        }
@@ -62,15 +55,31 @@ public class CheckAdd extends ApiRequestTemplate {
         // 출력 userNo 입력된 이메일에 해당하는 사용자의 사용자 번호를 돌려준다.
               
        // userInfo(sqlSession);
+        //System.out.println("j_param:"+this.reqData.get("j_param"));
+        String j_param = this.reqData.get("j_param");
         String user_id = null;
         String nwb_id = null;
         
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(j_param);
+        user_id = element.getAsJsonObject().get("user_id").getAsString();
+        nwb_id = element.getAsJsonObject().get("nwb_id").getAsString();                
         
-        
-//        this.reqData.put("user_id", reqeust_time);
-//        this.reqData.put("nwb_id", reqeust_time);
+        this.reqData.put("user_id", user_id);
+        this.reqData.put("nwb_id", nwb_id);
         
         int cnt =sqlSession.insert("checks.checkByUserId", this.reqData); 
+      if(cnt != -1)
+      {   
+          this.apiResult.addProperty("resultCode", "200");
+          this.apiResult.addProperty("message", "Success");
+          //this.apiResult.add("infos", workset);               
+      }
+      else 
+      {
+          // 데이터 없음.
+          this.apiResult.addProperty("resultCode", "404");
+      }   
     }
 //    public void userInfo(SqlSession sqlSession)
 //    {
