@@ -32,9 +32,9 @@ public class CheckAdd extends ApiRequestTemplate {
 
     @Override
     public void requestParamValidation() throws RequestParamException {
-        if (StringUtils.isEmpty(this.reqData.get("j_param"))) {
-            throw new RequestParamException("매개변수 j_param 이 없습니다.");
-        }
+//        if (StringUtils.isEmpty(this.reqData.get("j_param"))) {
+//            throw new RequestParamException("매개변수 j_param 이 없습니다.");
+//        }
 //        if (StringUtils.isEmpty(this.reqData.get("pwd"))) {
 //            throw new RequestParamException("유저 암호가 없습니다.");
 //        }
@@ -56,17 +56,22 @@ public class CheckAdd extends ApiRequestTemplate {
               
        // userInfo(sqlSession);
         //System.out.println("j_param:"+this.reqData.get("j_param"));
-        String j_param = this.reqData.get("j_param");
-        String user_id = null;
-        String nwb_id = null;
-        
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(j_param);
-        user_id = element.getAsJsonObject().get("user_id").getAsString();
-        nwb_id = element.getAsJsonObject().get("nwb_id").getAsString();                
-        
-        this.reqData.put("user_id", user_id);
-        this.reqData.put("nwb_id", nwb_id);
+        if ( ! 
+                StringUtils.isEmpty(this.reqData.get("j_param")) 
+                ) 
+        {
+            String j_param = this.reqData.get("j_param");
+            String user_id = null;
+            String nwb_id = null;
+            
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(j_param);
+            user_id = element.getAsJsonObject().get("user_id").getAsString();
+            nwb_id = element.getAsJsonObject().get("nwb_id").getAsString();                
+            
+            this.reqData.put("user_id", user_id);
+            this.reqData.put("nwb_id", nwb_id);
+        }       
         
         int cnt =sqlSession.insert("checks.checkByUserId", this.reqData); 
       if(cnt != -1)
