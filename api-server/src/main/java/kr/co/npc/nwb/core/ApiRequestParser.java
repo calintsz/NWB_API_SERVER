@@ -202,15 +202,13 @@ public class ApiRequestParser extends SimpleChannelInboundHandler<FullHttpMessag
         // Build the response object.
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
                 currentObj.getDecoderResult().isSuccess() ? OK : BAD_REQUEST, Unpooled.copiedBuffer(
-                        apiResult.toString(), CharsetUtil.UTF_8));
-        
+                        apiResult.toString(), CharsetUtil.UTF_8));        
 
         response.headers().set(ACCESS_CONTROL_ALLOW_HEADERS, "*");        
         response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
         response.headers().set(ACCESS_CONTROL_ALLOW_METHODS, "*");
         response.headers().set(ACCESS_CONTROL_EXPOSE_HEADERS, "*");
-        response.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");
-        
+        response.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");        
 
         if (keepAlive) {
             // Add 'Content-Length' header only for a keep-alive connection.
