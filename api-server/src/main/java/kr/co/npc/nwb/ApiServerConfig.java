@@ -15,6 +15,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @ComponentScan("kr.co.npc.nwb.core, kr.co.npc.nwb, kr.co.npc.nwb.service")
 @PropertySource("classpath:api-server.properties")
 public class ApiServerConfig {
+    
     @Value("${boss.thread.count}")
     private int bossThreadCount;
 

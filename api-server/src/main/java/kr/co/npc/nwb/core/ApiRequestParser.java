@@ -1,5 +1,7 @@
 package kr.co.npc.nwb.core;
 
+import static io.netty.handler.codec.http.HttpHeaders.Names.*;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_METHODS;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
@@ -201,8 +203,14 @@ public class ApiRequestParser extends SimpleChannelInboundHandler<FullHttpMessag
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
                 currentObj.getDecoderResult().isSuccess() ? OK : BAD_REQUEST, Unpooled.copiedBuffer(
                         apiResult.toString(), CharsetUtil.UTF_8));
+        
 
+        response.headers().set(ACCESS_CONTROL_ALLOW_HEADERS, "*");        
+        response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
+        response.headers().set(ACCESS_CONTROL_ALLOW_METHODS, "*");
+        response.headers().set(ACCESS_CONTROL_EXPOSE_HEADERS, "*");
         response.headers().set(CONTENT_TYPE, "application/json; charset=UTF-8");
+        
 
         if (keepAlive) {
             // Add 'Content-Length' header only for a keep-alive connection.

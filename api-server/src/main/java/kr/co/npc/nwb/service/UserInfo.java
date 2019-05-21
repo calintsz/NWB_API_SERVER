@@ -87,12 +87,14 @@ public class UserInfo extends ApiRequestTemplate {
             }                                      
             this.apiResult.addProperty("resultCode", "200");
             this.apiResult.addProperty("message", "Success");
-            this.apiResult.add("userInfos", workset);               
+            this.apiResult.add("userInfos", workset);      
+            System.out.println("msg sent.");
         }
         else 
         {
             // 데이터 없음.
             this.apiResult.addProperty("resultCode", "404");
+            System.out.println("msg sent failed.");
         }
     }
 }
